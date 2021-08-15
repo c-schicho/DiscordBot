@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv("../resources/.env")
 token = os.getenv("DISCORD_TOKEN")
+name = os.getenv("BOT_NAME")
 
 client = commands.Bot(command_prefix='!')
 
@@ -61,8 +62,12 @@ async def set_time(ctx, arg):
 
 @client.command()
 async def info(ctx):
-    # TODO in #9
-    pass
+    await ctx.send(
+        f"Hi my name is {name}. I'm here to help you while you're working on your computer. Once you turn me"
+        f" on I'm going to remind you every {reminder_minutes} minutes, or you can also tell me another "
+        f"time, to either drink or stretch. This should help you to stay relaxed and healthy and thus "
+        f"improve your productivity and well-being. I'm always happy to hear from you! :)"
+        )
 
 
 @tasks.loop(minutes=reminder_minutes)
