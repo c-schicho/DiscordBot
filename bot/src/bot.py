@@ -1,4 +1,5 @@
 import os
+import random
 from discord.ext import commands
 from discord.ext import tasks
 from dotenv import load_dotenv
@@ -85,11 +86,25 @@ async def remind_user(ctx):
 
 
 async def send_hydrate_reminder(ctx):
-    await ctx.send(HydrationMessages.message01)
+    messages = [
+        HydrationMessages.message01,
+        HydrationMessages.message02,
+        HydrationMessages.message03,
+        HydrationMessages.message04,
+        HydrationMessages.message05
+    ]
+    await ctx.send(random.choice(messages))
 
 
 async def send_stretch_reminder(ctx):
-    await ctx.send(StretchMessages.message01)
+    messages = [
+        StretchMessages.message01,
+        StretchMessages.message02,
+        StretchMessages.message03,
+        StretchMessages.message04,
+        StretchMessages.message05
+    ]
+    await ctx.send(random.choice(messages))
 
 
 client.run(TOKEN)
