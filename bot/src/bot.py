@@ -23,7 +23,11 @@ async def on_ready():
     print(Log.ready)
     
     
-@client.command()
+@client.command(
+    help="This command activates the reminder functionality of the bot. "
+         "It will then send you messages in the defined intervals.",
+    brief="Activates the bot"
+)
 async def on(ctx):
     global is_active
 
@@ -35,7 +39,11 @@ async def on(ctx):
         await ctx.send(On.active)
     
 
-@client.command()
+@client.command(
+    help="This command deactivates the reminder functionality of the bot. "
+         "It will then stop to send you reminder messages.",
+    brief="Deactivates the bot"
+)
 async def off(ctx):
     global is_active
     global skip_first
@@ -49,7 +57,10 @@ async def off(ctx):
         await ctx.send(Off.already_inactive)
     
 
-@client.command()
+@client.command(
+    help="Sets a custom remind time. Provide the time for the desired remind interval in minutes after the command.",
+    brief="Sets a custom remind time"
+)
 async def set_time(ctx, arg):
     try:
         arg = int(arg)
@@ -63,7 +74,10 @@ async def set_time(ctx, arg):
         await ctx.send(SetTime.failure)
 
 
-@client.command()
+@client.command(
+    help="This command will provide you further information about the bot, mainly what it is supposed to do.",
+    brief="Provides further information about the bot"
+)
 async def info(ctx):
     await ctx.send(Information().message(NAME, REMINDER_MINUTES))
 
