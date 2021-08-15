@@ -5,4 +5,5 @@ This bot is meant for programmers and all others which spend a lot of time in fr
 The bot reacts on three commands by now.  
 `!on` activates the bot  
 `!off` deactivates the bot  
-`!info` provides an info page about the bot and it's commands  
+`!help` provides information on how to use the bot and its commands
+`!info` provides information about the bot and what it's supposed to do
