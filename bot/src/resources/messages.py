@@ -4,7 +4,7 @@ class Log:
 
 class On:
     active = "I'm active now!"
-    already_active = "Keep calm! I'm already active"
+    already_active = "Keep calm! I'm already active."
 
 
 class Off:
