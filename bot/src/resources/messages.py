@@ -31,7 +31,16 @@ class Information:
 
 class HydrationMessages:
     message01 = "Do you feel like you need to hydrate?"
+    message02 = "A sip of water will keep your mind productive!"
+    message03 = "Your body needs water to work properly. Take a sip!"
+    message04 = "Your body might be lacking water."
+    message05 = "Now is the right time. Grab a drink and take a sip!"
 
 
 class StretchMessages:
     message01 = "It's time to stretch now!"
+    message02 = "You're working hard, take a minute to stretch your body."
+    message03 = "Time to activate your body! Stretch it!"
+    message04 = "Refresh your mind, do some short stretching activities"
+    message05 = "Some time passed by already, it's time to stretch now!"
+
