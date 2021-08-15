@@ -11,7 +11,7 @@ client = commands.Bot(command_prefix='!')
 is_active = False
 skip_first = True
 reminder_toggle = False
-reminder_minutes = 10
+reminder_minutes = 30
 
 
 @client.event
@@ -57,7 +57,7 @@ async def info(ctx):
     pass
 
 
-@tasks.loop(seconds=reminder_minutes)
+@tasks.loop(minutes=reminder_minutes)
 async def remind_user(ctx):
     global reminder_toggle
     global skip_first
