@@ -41,6 +41,6 @@ class StretchMessages:
     message01 = "It's time to stretch now!"
     message02 = "You're working hard, take a minute to stretch your body."
     message03 = "Time to activate your body! Stretch it!"
-    message04 = "Refresh your mind, do some short stretching activities"
+    message04 = "Refresh your mind, do some short stretching activities."
     message05 = "Some time passed by already, it's time to stretch now!"
 
