@@ -47,4 +47,8 @@ async def info(ctx):
     pass
 
 
+async def send_hydrate_reminder(ctx):
+    await ctx.send("Do you feel like you need to hydrate?")
+
+
 client.run(token)
