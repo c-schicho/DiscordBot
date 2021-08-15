@@ -2,22 +2,24 @@ import os
 from discord.ext import commands
 from discord.ext import tasks
 from dotenv import load_dotenv
+from resources.messages import *
 
-load_dotenv("../resources/.env")
-token = os.getenv("DISCORD_TOKEN")
-name = os.getenv("BOT_NAME")
+load_dotenv("resources/.env")
 
-client = commands.Bot(command_prefix='!')
+TOKEN = os.getenv("DISCORD_TOKEN")
+NAME = os.getenv("BOT_NAME")
+REMINDER_MINUTES = int(os.getenv("REMINDER_MINUTES"))
 
 is_active = False
 skip_first = True
 reminder_toggle = False
-reminder_minutes = 30
+
+client = commands.Bot(command_prefix='!')
 
 
 @client.event
 async def on_ready():
-    print("\033[92mLOG: bot is up and ready\033[0m")
+    print(Log.ready)
     
     
 @client.command()
@@ -25,11 +27,11 @@ async def on(ctx):
     global is_active
 
     if is_active:
-        await ctx.send("Keep calm! I'm already active")
+        await ctx.send(On.already_active)
     else:
         remind_user.start(ctx)
         is_active = True
-        await ctx.send("I'm active now!")
+        await ctx.send(On.active)
     
 
 @client.command()
@@ -41,9 +43,9 @@ async def off(ctx):
         skip_first = True
         remind_user.stop()
         is_active = False
-        await ctx.send("I'm going to sleep now. See you!")
+        await ctx.send(Off.inactive)
     else:
-        await ctx.send("Don't disturb me while I'm sleeping!")
+        await ctx.send(Off.already_inactive)
     
 
 @client.command()
@@ -55,22 +57,17 @@ async def set_time(ctx, arg):
 
     if isinstance(arg, int) and arg > 0:
         remind_user.change_interval(minutes=arg)
-        await ctx.send(f"Ok I'm going to remind you every {arg} minutes.")
+        await ctx.send(SetTime().success(arg))
     else:
-        await ctx.send("I'm sorry but you didn't provide a proper time argument.")
+        await ctx.send(SetTime.failure)
 
 
 @client.command()
 async def info(ctx):
-    await ctx.send(
-        f"Hi my name is {name}. I'm here to help you while you're working on your computer. Once you turn me"
-        f" on I'm going to remind you every {reminder_minutes} minutes, or you can also tell me another "
-        f"time, to either drink or stretch. This should help you to stay relaxed and healthy and thus "
-        f"improve your productivity and well-being. I'm always happy to hear from you! :)"
-        )
+    await ctx.send(Information().message(NAME, REMINDER_MINUTES))
 
 
-@tasks.loop(minutes=reminder_minutes)
+@tasks.loop(minutes=REMINDER_MINUTES)
 async def remind_user(ctx):
     global reminder_toggle
     global skip_first
@@ -88,11 +85,11 @@ async def remind_user(ctx):
 
 
 async def send_hydrate_reminder(ctx):
-    await ctx.send("Do you feel like you need to hydrate?")
+    await ctx.send(HydrationMessages.message01)
 
 
 async def send_stretch_reminder(ctx):
-    await ctx.send("It's time to stretch now!")
+    await ctx.send(StretchMessages.message01)
 
 
-client.run(token)
+client.run(TOKEN)
