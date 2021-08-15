@@ -47,8 +47,16 @@ async def off(ctx):
 
 @client.command()
 async def set_time(ctx, arg):
-    # TODO in #12
-    pass
+    try:
+        arg = int(arg)
+    except ValueError:
+        pass
+
+    if isinstance(arg, int) and arg > 0:
+        remind_user.change_interval(minutes=arg)
+        await ctx.send(f"Ok I'm going to remind you every {arg} minutes.")
+    else:
+        await ctx.send("I'm sorry but you didn't provide a proper time argument.")
 
 
 @client.command()
