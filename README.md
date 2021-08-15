@@ -1,6 +1,8 @@
 # DiscordBot
 
-This bot is meant for programmers and all others which spend a lot of time in front of their screen. The purpose of this bot is to remind the user to not forget to hydrate and to stretch. This should help the user to maintain these two things while working on the computer.
+This bot is meant for programmers and all others which spend a lot of time in front of their screen. The purpose of this bot is to remind the user to not forget to hydrate and to stretch. This should help the user to maintain these two things while working on the computer. 
+
+By now the bot reminds the user every 30 minutes alternately to ether hydrate or stretch.
 
 The bot reacts on three commands by now.  
 `!on` activates the bot  
