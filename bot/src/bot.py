@@ -51,4 +51,8 @@ async def send_hydrate_reminder(ctx):
     await ctx.send("Do you feel like you need to hydrate?")
 
 
+async def send_stretch_reminder(ctx):
+    await ctx.send("It's time to stretch now!")
+
+
 client.run(token)
