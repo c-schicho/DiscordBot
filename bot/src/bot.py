@@ -3,7 +3,7 @@ import random
 from discord.ext import commands
 from discord.ext import tasks
 from dotenv import load_dotenv
-from resources.messages import *
+import resources.messages as Msg
 
 load_dotenv("resources/.env")
 
@@ -20,7 +20,7 @@ client = commands.Bot(command_prefix='!')
 
 @client.event
 async def on_ready():
-    print(Log.ready)
+    print(Msg.Log.ready)
     
     
 @client.command(
@@ -32,11 +32,11 @@ async def on(ctx):
     global is_active
 
     if is_active:
-        await ctx.send(On.already_active)
+        await ctx.send(Msg.On.already_active)
     else:
         remind_user.start(ctx)
         is_active = True
-        await ctx.send(On.active)
+        await ctx.send(Msg.On.active)
     
 
 @client.command(
@@ -52,9 +52,9 @@ async def off(ctx):
         skip_first = True
         remind_user.stop()
         is_active = False
-        await ctx.send(Off.inactive)
+        await ctx.send(Msg.Off.inactive)
     else:
-        await ctx.send(Off.already_inactive)
+        await ctx.send(Msg.Off.already_inactive)
     
 
 @client.command(
@@ -69,9 +69,9 @@ async def set_time(ctx, arg):
 
     if isinstance(arg, int) and arg > 0:
         remind_user.change_interval(minutes=arg)
-        await ctx.send(SetTime().success(arg))
+        await ctx.send(Msg.SetTime().success(arg))
     else:
-        await ctx.send(SetTime.failure)
+        await ctx.send(Msg.SetTime.failure)
 
 
 @client.command(
@@ -79,7 +79,7 @@ async def set_time(ctx, arg):
     brief="Provides further information about the bot"
 )
 async def info(ctx):
-    await ctx.send(Information().message(NAME, REMINDER_MINUTES))
+    await ctx.send(Msg.Information().message(NAME, REMINDER_MINUTES))
 
 
 @tasks.loop(minutes=REMINDER_MINUTES)
@@ -101,22 +101,22 @@ async def remind_user(ctx):
 
 async def send_hydrate_reminder(ctx):
     messages = [
-        HydrationMessages.message01,
-        HydrationMessages.message02,
-        HydrationMessages.message03,
-        HydrationMessages.message04,
-        HydrationMessages.message05
+        Msg.HydrationMessages.message01,
+        Msg.HydrationMessages.message02,
+        Msg.HydrationMessages.message03,
+        Msg.HydrationMessages.message04,
+        Msg.HydrationMessages.message05
     ]
     await ctx.send(random.choice(messages))
 
 
 async def send_stretch_reminder(ctx):
     messages = [
-        StretchMessages.message01,
-        StretchMessages.message02,
-        StretchMessages.message03,
-        StretchMessages.message04,
-        StretchMessages.message05
+        Msg.StretchMessages.message01,
+        Msg.StretchMessages.message02,
+        Msg.StretchMessages.message03,
+        Msg.StretchMessages.message04,
+        Msg.StretchMessages.message05
     ]
     await ctx.send(random.choice(messages))
 
