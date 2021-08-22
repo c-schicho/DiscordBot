@@ -55,9 +55,8 @@ async def off(ctx):
     is_active = usr_settings["is_active"]
 
     if is_active:
-        db.update({"skip_first": True}, usr.id == usr_id)
         remind_user.cancel()
-        db.update({"is_active": False}, usr.id == usr_id)
+        db.update({"is_active": False, "skip_first": True}, usr.id == usr_id)
         await ctx.send(Msg.Off.inactive)
     else:
         await ctx.send(Msg.Off.already_inactive)
