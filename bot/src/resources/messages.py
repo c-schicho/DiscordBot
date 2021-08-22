@@ -5,6 +5,7 @@ class Log:
 class On:
     active = "I'm active now!"
     already_active = "Keep calm! I'm already active."
+    failure = "Oops, it seems like something went wrong!"
 
 
 class Off:

@@ -14,7 +14,6 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 NAME = os.getenv("BOT_NAME")
 REMINDER_MINUTES = int(os.getenv("REMINDER_MINUTES"))
 
-
 client = commands.Bot(command_prefix='!')
 
 
@@ -22,8 +21,8 @@ client = commands.Bot(command_prefix='!')
 async def on_ready():
     db.update({"is_active": False, "skip_first": True})
     print(Msg.Log.ready)
-    
-    
+
+
 @client.command(
     help="This command activates the reminder functionality of the bot. "
          "It will then send you messages in the defined intervals.",
@@ -37,11 +36,14 @@ async def on(ctx):
     if is_active:
         await ctx.send(Msg.On.already_active)
     else:
-        remind_user.change_interval(minutes=reminder_minutes)
-        remind_user.start(ctx)
-        db.update({"is_active": True}, usr.id == usr_id)
-        await ctx.send(Msg.On.active)
-    
+        try:
+            remind_user.change_interval(minutes=reminder_minutes)
+            remind_user.start(ctx)
+            db.update({"is_active": True}, usr.id == usr_id)
+            await ctx.send(Msg.On.active)
+        except RuntimeError:
+            await ctx.send(Msg.On.failure)
+
 
 @client.command(
     help="This command deactivates the reminder functionality of the bot. "
@@ -54,12 +56,12 @@ async def off(ctx):
 
     if is_active:
         db.update({"skip_first": True}, usr.id == usr_id)
-        remind_user.stop()
+        remind_user.cancel()
         db.update({"is_active": False}, usr.id == usr_id)
         await ctx.send(Msg.Off.inactive)
     else:
         await ctx.send(Msg.Off.already_inactive)
-    
+
 
 @client.command(
     help="Sets a custom remind time. Provide the time for the desired remind interval in minutes after the command.",
