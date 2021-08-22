@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 import resources.messages as Msg
 from tinydb import TinyDB, Query
 
-db = TinyDB("resources/usr_settings.json")
+db = TinyDB("resources/user_db.json", sort_keys=True, indent=4, separators=(',', ': '))
+db.default_table_name = "user_settings"
 load_dotenv("resources/.env")
 
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -19,11 +20,7 @@ client = commands.Bot(command_prefix='!')
 
 @client.event
 async def on_ready():
-    usr = Query()
-    for user in db:
-        usr_id = int(user["id"])
-        db.update({"is_active": False, "skip_first": True}, usr.id == usr_id)
-
+    db.update({"is_active": False, "skip_first": True})
     print(Msg.Log.ready)
     
     
@@ -135,14 +132,13 @@ async def send_stretch_reminder(ctx):
 def _get_user_and_settings(ctx):
     usr = Query()
     usr_id = int(ctx.author.id)
-    usr_stats = db.search(usr.id == usr_id)
+    usr_settings = db.get(usr.id == usr_id)
 
-    if len(usr_stats) == 0:
+    if not usr_settings:
         _create_new_user(usr_id)
-        usr_stats = db.search(usr.id == usr_id)
+        usr_settings = db.get(usr.id == usr_id)
 
-    usr_stats = usr_stats[0]
-    return usr, usr_id, usr_stats
+    return usr, usr_id, usr_settings
 
 
 def _create_new_user(usr_id):
