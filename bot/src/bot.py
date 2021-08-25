@@ -69,16 +69,11 @@ async def off(ctx):
 async def set_time(ctx, minutes):
     try:
         minutes = int(minutes)
-    except ValueError:
-        pass
-
-    usr, usr_id, usr_settings = _get_user_and_settings(ctx)
-
-    if isinstance(minutes, int) and minutes > 0:
-        db.update({"reminder_minutes": minutes}, usr.id == usr_id)
+        usr, usr_id, usr_settings = _get_user_and_settings(ctx)
         remind_user.change_interval(minutes=minutes)
+        db.update({"reminder_minutes": minutes}, usr.id == usr_id)
         await ctx.send(Msg.SetTime().success(minutes))
-    else:
+    except ValueError:
         await ctx.send(Msg.SetTime.failure)
 
 
@@ -101,14 +96,14 @@ async def remind_user(ctx):
         return
 
     if reminder_toggle:
-        await send_hydrate_reminder(ctx)
+        await _send_hydrate_reminder(ctx)
     else:
-        await send_stretch_reminder(ctx)
+        await _send_stretch_reminder(ctx)
 
     db.update({"reminder_toggle": not reminder_toggle}, usr.id == usr_id)
 
 
-async def send_hydrate_reminder(ctx):
+async def _send_hydrate_reminder(ctx):
     messages = [
         Msg.HydrationMessages.message01,
         Msg.HydrationMessages.message02,
@@ -119,7 +114,7 @@ async def send_hydrate_reminder(ctx):
     await ctx.send(random.choice(messages))
 
 
-async def send_stretch_reminder(ctx):
+async def _send_stretch_reminder(ctx):
     messages = [
         Msg.StretchMessages.message01,
         Msg.StretchMessages.message02,
